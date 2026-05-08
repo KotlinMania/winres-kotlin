@@ -151,7 +151,7 @@ to make this crate better.
 
 ```kotlin
 dependencies {
-    implementation("io.github.kotlinmania:winres-kotlin:0.1.0-SNAPSHOT")
+    implementation("io.github.kotlinmania:winres-kotlin:0.1.0")
 }
 ```
 
