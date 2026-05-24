@@ -1,5 +1,4 @@
 {
-  "parity_mode": false,
   "type": "port",
   "name": "winres-kotlin",
   "source": {
