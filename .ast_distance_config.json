@@ -1,8 +1,9 @@
 {
+  "parity_mode": false,
   "type": "port",
   "name": "winres-kotlin",
   "source": {
-    "path": "tmp/winres/src",
+    "path": "tmp/winres",
     "lang": "rust"
   },
   "target": {
