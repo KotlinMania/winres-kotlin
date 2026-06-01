@@ -146,7 +146,7 @@ internal fun escapeResourceString(string: String): String = buildString {
     }
 }
 
-internal fun winSdkIncludeRoot(path: String): String {
+internal fun winSdkInlcudeRoot(path: String): String {
     val parts = path.split('\\')
     val binIndex = parts.indexOf("bin")
     if (binIndex < 0 || binIndex == 0) return ""
