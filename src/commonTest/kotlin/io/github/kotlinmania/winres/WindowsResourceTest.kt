@@ -15,17 +15,19 @@ class WindowsResourceTest {
 
     @Test
     fun toolkitInlcudeWin10() {
-        val result = winSdkInlcudeRoot(
-            "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.17763.0\\x64\\rc.exe",
-        )
+        val result =
+            winSdkInlcudeRoot(
+                "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.17763.0\\x64\\rc.exe",
+            )
         assertEquals("C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.17763.0", result)
     }
 
     @Test
     fun toolkitInlcudeWin8() {
-        val result = winSdkInlcudeRoot(
-            "C:\\Program Files (x86)\\Windows Kits\\8.1\\bin\\x86\\rc.exe",
-        )
+        val result =
+            winSdkInlcudeRoot(
+                "C:\\Program Files (x86)\\Windows Kits\\8.1\\bin\\x86\\rc.exe",
+            )
         assertEquals("C:\\Program Files (x86)\\Windows Kits\\8.1\\Include", result)
     }
 }
