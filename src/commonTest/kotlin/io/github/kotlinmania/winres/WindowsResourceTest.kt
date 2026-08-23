@@ -3,6 +3,7 @@ package io.github.kotlinmania.winres
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class WindowsResourceTest {
     @Test
@@ -29,5 +30,55 @@ class WindowsResourceTest {
                 "C:\\Program Files (x86)\\Windows Kits\\8.1\\bin\\x86\\rc.exe",
             )
         assertEquals("C:\\Program Files (x86)\\Windows Kits\\8.1\\Include", result)
+    }
+
+    @Test
+    fun testWindowsResourceGeneration() {
+        val res =
+            WindowsResource()
+                .set("InternalName", "TEST.EXE")
+                .set("FileDescription", "Sample Application")
+                .setIcon("app.ico")
+                .setIconWithId("doc.ico", "2")
+                .setLanguage(0x0409u)
+                .setVersionInfo(VersionInfo.PRODUCTVERSION, 0x0001000200030004uL)
+                .setVersionInfo(VersionInfo.FILEVERSION, 0x0001000000000000uL)
+                .appendRcContent("100 MENU { MENUITEM \"&Exit\", 101 }")
+
+        val rc = res.writeResourceText()
+        assertTrue(rc.contains("#pragma code_page(65001)"))
+        assertTrue(rc.contains("1 VERSIONINFO"))
+        assertTrue(rc.contains("VALUE \"InternalName\", \"TEST.EXE\""))
+        assertTrue(rc.contains("VALUE \"FileDescription\", \"Sample Application\""))
+        assertTrue(rc.contains("1 ICON \"app.ico\""))
+        assertTrue(rc.contains("2 ICON \"doc.ico\""))
+        assertTrue(rc.contains("BLOCK \"040904b0\""))
+        assertTrue(rc.contains("100 MENU { MENUITEM \"&Exit\", 101 }"))
+    }
+
+    @Test
+    fun testManifestEmbedding() {
+        val manifestXml =
+            """
+            <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+                <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+                </trustInfo>
+            </assembly>
+            """.trimIndent()
+
+        val res =
+            WindowsResource()
+                .setManifest(manifestXml)
+
+        val rc = res.writeResourceText()
+        assertTrue(rc.contains("1 24"))
+        assertTrue(rc.contains("\" <assembly xmlns=\"\"urn:schemas-microsoft-com:asm.v1\"\" manifestVersion=\"\"1.0\"\"> \""))
+
+        val resWithFile =
+            WindowsResource()
+                .setManifestFile("app.manifest")
+
+        val rcFile = resWithFile.writeResourceText()
+        assertTrue(rcFile.contains("1 24 \"app.manifest\""))
     }
 }
