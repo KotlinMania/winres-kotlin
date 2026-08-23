@@ -1,6 +1,35 @@
 // port-lint: source lib.rs
 package io.github.kotlinmania.winres
 
+/*
+ * Copyright (c) 2016 Max Resch
+ * Copyright (c) 2025 Sydney Renee, The Solace Project
+ *
+ * Permission is hereby granted, free of charge, to any
+ * person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the
+ * Software without restriction, including without
+ * limitation the rights to use, copy, modify, merge,
+ * publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software
+ * is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice
+ * shall be included in all copies or substantial portions
+ * of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ * ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+ * TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+ * SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+ * IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ */
+
 /**
  * Version info field names used in Windows VERSIONINFO resources.
  */
@@ -24,6 +53,11 @@ private data class Icon(
  * resource compilers.
  */
 public class WindowsResource {
+    public companion object {
+        /** Creates a new default WindowsResource instance. */
+        public fun new(): WindowsResource = WindowsResource()
+    }
+
     private val properties: MutableMap<String, String> = linkedMapOf()
     private val versionInfo: MutableMap<VersionInfo, ULong> =
         linkedMapOf(
@@ -38,6 +72,48 @@ public class WindowsResource {
     private var manifest: String? = null
     private var manifestFile: String? = null
     private var appendRcContent: String = ""
+    public var toolkitPath: String = ""
+        private set
+    public var rcFile: String? = null
+        private set
+    public var outputDirectory: String = "."
+        private set
+    public var windresPath: String = "windres"
+        private set
+    public var arPath: String = "ar"
+        private set
+    public var addToolkitInclude: Boolean = false
+        private set
+
+    public fun setToolkitPath(path: String): WindowsResource {
+        this.toolkitPath = path
+        return this
+    }
+
+    public fun setResourceFile(path: String): WindowsResource {
+        this.rcFile = path
+        return this
+    }
+
+    public fun setOutputDirectory(path: String): WindowsResource {
+        this.outputDirectory = path
+        return this
+    }
+
+    public fun setWindresPath(path: String): WindowsResource {
+        this.windresPath = path
+        return this
+    }
+
+    public fun setArPath(path: String): WindowsResource {
+        this.arPath = path
+        return this
+    }
+
+    public fun addToolkitInclude(add: Boolean): WindowsResource {
+        this.addToolkitInclude = add
+        return this
+    }
 
     public fun set(name: String, value: String): WindowsResource {
         properties[name] = value

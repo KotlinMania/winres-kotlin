@@ -81,4 +81,24 @@ class WindowsResourceTest {
         val rcFile = resWithFile.writeResourceText()
         assertTrue(rcFile.contains("1 24 \"app.manifest\""))
     }
+
+    @Test
+    fun testBuilderMethods() {
+        val res =
+            WindowsResource
+                .new()
+                .setToolkitPath("C:\\SDK")
+                .setResourceFile("custom.rc")
+                .setOutputDirectory("build/out")
+                .setWindresPath("x86_64-w64-mingw32-windres")
+                .setArPath("x86_64-w64-mingw32-ar")
+                .addToolkitInclude(true)
+
+        assertEquals("C:\\SDK", res.toolkitPath)
+        assertEquals("custom.rc", res.rcFile)
+        assertEquals("build/out", res.outputDirectory)
+        assertEquals("x86_64-w64-mingw32-windres", res.windresPath)
+        assertEquals("x86_64-w64-mingw32-ar", res.arPath)
+        assertTrue(res.addToolkitInclude)
+    }
 }
