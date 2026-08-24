@@ -740,7 +740,11 @@ tasks.register("hostTests") {
 // and patch unqualified String(reflecting:) calls in generated Swift sources
 tasks.matching { it.name.contains("GenerateSPMPackage") }.configureEach {
     doLast {
-        val spmDir = layout.buildDirectory.dir("SPMPackage").orNull?.asFile
+        val spmDir =
+            layout.buildDirectory
+                .dir("SPMPackage")
+                .orNull
+                ?.asFile
         if (spmDir != null && spmDir.exists()) {
             spmDir.walkTopDown().forEach { file ->
                 if (file.name == "Package.swift") {
