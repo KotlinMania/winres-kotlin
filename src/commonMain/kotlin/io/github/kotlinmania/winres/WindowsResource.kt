@@ -386,7 +386,7 @@ public class WindowsResource {
      * and passes it to the configured resource compiler.
      */
     public fun compile(): Boolean {
-        val rc = rcFile ?: "${outputDirectory}/resource.rc"
+        val rc = rcFile ?: "$outputDirectory/resource.rc"
         if (rcFile == null) {
             writeResourceFile(rc)
         }
