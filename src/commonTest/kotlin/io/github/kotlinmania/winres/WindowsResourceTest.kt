@@ -129,6 +129,6 @@ class WindowsResourceTest {
         assertTrue(res.compile())
         assertTrue(res.compileWithToolkitGnu("test.rc", "build/out"))
         assertTrue(res.compileWithToolkitMsvc("test.rc", "build/out"))
-        assertEquals(emptyList(), getSdk())
+        assertEquals(emptyList<String>(), getSdk())
     }
 }
