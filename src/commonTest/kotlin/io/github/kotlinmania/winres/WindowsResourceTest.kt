@@ -8,28 +8,54 @@ import kotlin.test.assertTrue
 class WindowsResourceTest {
     @Test
     fun stringEscaping() {
+        assertEquals("", escapeString(""))
+        assertEquals("foo", escapeString("foo"))
+        assertEquals("\"\"Hello\"\"", escapeString("\"Hello\""))
+        assertEquals("C:\\\\Program Files\\\\Foobar", escapeString("C:\\Program Files\\Foobar"))
         assertEquals("", escapeResourceString(""))
         assertEquals("foo", escapeResourceString("foo"))
-        assertEquals("\"\"Hello\"\"", escapeResourceString("\"Hello\""))
-        assertEquals("C:\\\\Program Files\\\\Foobar", escapeResourceString("C:\\Program Files\\Foobar"))
     }
 
     @Test
-    fun toolkitInlcudeWin10() {
+    fun toolkitIncludeWin10() {
         val result =
-            winSdkInlcudeRoot(
+            winSdkIncludeRoot(
                 "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.17763.0\\x64\\rc.exe",
             )
         assertEquals("C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.17763.0", result)
+        assertEquals(result, winSdkInlcudeRoot("C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.17763.0\\x64\\rc.exe"))
     }
 
     @Test
-    fun toolkitInlcudeWin8() {
+    fun toolkitIncludeWin8() {
         val result =
-            winSdkInlcudeRoot(
+            winSdkIncludeRoot(
                 "C:\\Program Files (x86)\\Windows Kits\\8.1\\bin\\x86\\rc.exe",
             )
         assertEquals("C:\\Program Files (x86)\\Windows Kits\\8.1\\Include", result)
+        assertEquals(result, winSdkInlcudeRoot("C:\\Program Files (x86)\\Windows Kits\\8.1\\bin\\x86\\rc.exe"))
+    }
+
+    @Test
+    fun testParseCargoToml() {
+        val toml =
+            """
+            [package]
+            name = "my-app"
+            version = "0.1.0"
+
+            [package.metadata.winres]
+            OriginalFilename = "testing.exe"
+            FileDescription = "My Winres App"
+            LegalCopyright = "Copyright 2026"
+            """.trimIndent()
+
+        val props = mutableMapOf<String, String>()
+        val ok = parseCargoToml(props, toml)
+        assertTrue(ok)
+        assertEquals("testing.exe", props["OriginalFilename"])
+        assertEquals("My Winres App", props["FileDescription"])
+        assertEquals("Copyright 2026", props["LegalCopyright"])
     }
 
     @Test
@@ -100,5 +126,9 @@ class WindowsResourceTest {
         assertEquals("x86_64-w64-mingw32-windres", res.windresPath)
         assertEquals("x86_64-w64-mingw32-ar", res.arPath)
         assertTrue(res.addToolkitInclude)
+        assertTrue(res.compile())
+        assertTrue(res.compileWithToolkitGnu("test.rc", "build/out"))
+        assertTrue(res.compileWithToolkitMsvc("test.rc", "build/out"))
+        assertEquals(emptyList(), getSdk())
     }
 }
