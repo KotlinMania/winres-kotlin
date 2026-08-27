@@ -1,4 +1,4 @@
-// port-lint: source winres/lib.rs
+// port-lint: source lib.rs
 package io.github.kotlinmania.winres
 
 /*
