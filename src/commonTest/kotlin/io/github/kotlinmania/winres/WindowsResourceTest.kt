@@ -1,4 +1,4 @@
-// port-lint: tests winres/lib.rs
+// port-lint: tests lib.rs
 package io.github.kotlinmania.winres
 
 import kotlin.test.Test
