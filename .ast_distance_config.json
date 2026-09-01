@@ -2,7 +2,7 @@
   "type": "port",
   "name": "winres-kotlin",
   "source": {
-    "path": "tmp",
+    "path": "tmp/winres",
     "lang": "rust"
   },
   "target": {
