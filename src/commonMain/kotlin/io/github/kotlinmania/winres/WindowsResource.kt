@@ -442,7 +442,9 @@ public class WindowsResource {
                         appendLine("}")
                     }
 
-                    manifestPath != null -> appendLine("${fileType.toInt()} 24 \"${escapeString(manifestPath)}\"")
+                    manifestPath != null -> {
+                        appendLine("${fileType.toInt()} 24 \"${escapeString(manifestPath)}\"")
+                    }
                 }
             }
             appendLine(appendRcContent)
