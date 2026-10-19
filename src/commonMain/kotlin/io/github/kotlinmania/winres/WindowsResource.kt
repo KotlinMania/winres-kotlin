@@ -1,4 +1,3 @@
-// port-lint: source lib.rs
 package io.github.kotlinmania.winres
 
 /*
@@ -29,48 +28,6 @@ package io.github.kotlinmania.winres
  * IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
-
-/**
- * Version info field names used in Windows VERSIONINFO resources.
- */
-public enum class VersionInfo {
-    /**
-     * The version value consists of four 16 bit words, e.g.,
-     * `MAJOR << 48 | MINOR << 32 | PATCH << 16 | RELEASE`.
-     */
-    FILEVERSION,
-
-    /**
-     * The version value consists of four 16 bit words, e.g.,
-     * `MAJOR << 48 | MINOR << 32 | PATCH << 16 | RELEASE`.
-     */
-    PRODUCTVERSION,
-
-    /**
-     * Should be Windows NT Win32, with value `0x40004`.
-     */
-    FILEOS,
-
-    /**
-     * The value (for a compiler output) should be 1 for an EXE and 2 for a DLL.
-     */
-    FILETYPE,
-
-    /**
-     * Only for Windows drivers.
-     */
-    FILESUBTYPE,
-
-    /**
-     * Bit mask for FILEFLAGS.
-     */
-    FILEFLAGSMASK,
-
-    /**
-     * Only the bits set in FILEFLAGSMASK are read.
-     */
-    FILEFLAGS,
-}
 
 private data class Icon(
     val path: String,

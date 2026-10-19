@@ -1,6 +1,8 @@
-// port-lint: tests lib.rs
 package io.github.kotlinmania.winres
 
+import io.github.kotlinmania.winapi.shared.ntdef.LANG_ENGLISH
+import io.github.kotlinmania.winapi.shared.ntdef.MAKELANGID
+import io.github.kotlinmania.winapi.shared.ntdef.SUBLANG_ENGLISH_US
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -130,5 +132,15 @@ class WindowsResourceTest {
         assertTrue(res.compileWithToolkitGnu("test.rc", "build/out"))
         assertTrue(res.compileWithToolkitMsvc("test.rc", "build/out"))
         assertEquals(emptyList<String>(), getSdk())
+    }
+
+    @Test
+    fun testWinapiLanguageIntegration() {
+        val langId = MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US)
+        assertEquals(0x0409u.toUShort(), langId)
+        val res = WindowsResource().setLanguage(langId)
+        val rc = res.writeResourceText()
+        assertTrue(rc.contains("BLOCK \"040904b0\""))
+        assertTrue(rc.contains("VALUE \"Translation\", 0x409, 0x04b0"))
     }
 }
